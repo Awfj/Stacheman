@@ -18,13 +18,38 @@ int main()
     Sprite spriteBackground;
     spriteBackground.setTexture(textureBackground);
 
+    Font font;
+    font.loadFromFile("fonts/KOMIKAP_.ttf");
+
+    Text startText;
+    startText.setFont(font);
+    startText.setString("Press Enter to start!");
+    startText.setCharacterSize(75);
+    startText.setFillColor(Color::White);
+
+    FloatRect startTextRect = startText.getLocalBounds();
+    startText.setOrigin(startTextRect.left +
+        startTextRect.width / 2.0f,
+        startTextRect.top +
+        startTextRect.height / 2.0f);
+    startText.setPosition(resolution.x / 2.0f, resolution.y / 2.0f);
+
+    bool paused = true;
+
     while (window.isOpen()) {
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
             window.close();
         }
 
+        if (Keyboard::isKeyPressed(Keyboard::Return)) {
+            paused = false;
+        }
+
         window.clear();
         window.draw(spriteBackground);
+        if (paused) {
+            window.draw(startText);
+        }
         window.display();
     }
 
